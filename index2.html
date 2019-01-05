@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="/Users/majolex/Desktop/ProjectOne/assets/style/style.css" rel="stylesheet" type="text/css">
+  <link href="assets/style/style.css" rel="stylesheet" type="text/css">
   <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
   <script src="https://code.jquery.com/jquery.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
@@ -45,22 +45,48 @@
 <body background="assets\images\cassets.jpg" id="bandsmusc">
 
   <div class="container">
+    <div class="row" id="input-artist">
 
-    <form id="artist-form">
-      <label for="artist-input">Choose your artist</label>
-      <input type='text' id="artist-input"><br>
+      <form id="artist-form">
+        <label for="artist-input">Choose your artist</label>
+        <input type='text' id="artist-input"><br><br>
 
-      <input type="submit" id="select-artist" value="GO!!">
-    </form>
+        <input type="submit" id="select-artist" value="GO!!">
+      </form>
+    </div>
+  
 
-    <div id='artist-div'></div><br>
+  
+    <div class="row" id="content">
+      <div class="col-md">
 
-    <audio controls autoplay>
-      <source src="The Rock and Pop All Stars - Seven Nation Army (Instrumental) www.my-free-mp3.net  (3).mp3" type="audio/ogg">
-      <source src="The Rock and Pop All Stars - Seven Nation Army (Instrumental) www.my-free-mp3.net  (3).mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
-    </audio>
+
+        <div id='artist-div'></div><br>
+
+        <audio controls autoplay>
+          <source src="The Rock and Pop All Stars - Seven Nation Army (Instrumental) www.my-free-mp3.net  (3).mp3" type="audio/ogg">
+          <source src="The Rock and Pop All Stars - Seven Nation Army (Instrumental) www.my-free-mp3.net  (3).mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+
+      </div>
+
+      <div class="col col-lg-3">
+
+        <h3>Recent Searches</h3>
+
+        <div id='recent-searches'></div>
+      </div>
+
+    </div>
+
   </div>
+
+
+
+
+  </div>
+
 
   <script>
 

@@ -63,3 +63,9 @@ h3 {
  p{
    color: #fff;
  }
+
+ #input-artist {
+   display: block;
+   text-align: center;
+   
+ }
