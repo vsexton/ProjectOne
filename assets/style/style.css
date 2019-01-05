@@ -3,7 +3,7 @@ h2,
 h3 {
   font-family: Georgia, Times, "Times New Roman", serif;
   font-weight: 600;
-  color: #637978;
+  color: #fff;
   font-size: 20px;
   
   
@@ -60,4 +60,6 @@ h3 {
     background-size: cover;
   }
 
- 
+ p{
+   color: #fff;
+ }
