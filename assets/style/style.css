@@ -72,3 +72,7 @@ h3 {
 #music{
   margin: auto;
 }
+
+ul {
+  list-style-type: none;
+}
