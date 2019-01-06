@@ -75,9 +75,10 @@
 
         <div class="col col-lg-3">
 
-          <h3>Recent Searches</h3>
+          <h3>My Recent Searches</h3>
+          <ul id="recent-searches">
 
-          <div id='recent-searches'></div>
+          </ul>
         </div>
 
       </div>
@@ -91,57 +92,84 @@
 
 
     <script>
+      $(document).ready(function () {
+        // Initialize Firebase
+        var config = {
+          apiKey: "AIzaSyAHf8ygmFnOhfjGjpYz24XLqMG0mD_czrg",
+          authDomain: "flying-avalanche.firebaseapp.com",
+          databaseURL: "https://flying-avalanche.firebaseio.com",
+          projectId: "flying-avalanche",
+          storageBucket: "flying-avalanche.appspot.com",
+          messagingSenderId: "69996284195"
+        };
 
-      // Initialize Firebase
-      var config = {
-        apiKey: "AIzaSyAHf8ygmFnOhfjGjpYz24XLqMG0mD_czrg",
-        authDomain: "flying-avalanche.firebaseapp.com",
-        databaseURL: "https://flying-avalanche.firebaseio.com",
-        projectId: "flying-avalanche",
-        storageBucket: "flying-avalanche.appspot.com",
-        messagingSenderId: "69996284195"
-      };
-      firebase.initializeApp(config);
-      var database = firebase.database();
-
-      var searchResult = $("#artist-input").val().trim();
-      var newDiv = $("<div>").append(searchResult);
-      var addResult = $("#recent-searches").prepend(newDiv);
-
-
-      //AJAX Function
-
-      function getArtist(artist) {
-        var queryURL = "https://rest.bandsintown.com/artists/" + artist + "?app_id=lindsey";
-
-        $.ajax({
-          url: queryURL,
-          method: 'GET'
-        }).then(function (response) {
-          console.log(response);
-          $("artist-div").empty
-          var artistName = $("<h1>").text(response.name);
-          //var artistURL = $("<a>").attr("href", response.url).text(response.name);
-          var artistImage = $("<img>").attr("src", response.thumb_url);
-          var upcomingEvents = $("<h2>").text("Upcoming events: " + response.upcoming_event_count);
-
-          $("#artist-div").prepend(artistName, artistImage, upcomingEvents);
-        })
-      };
-
-      function addSearch() {
-        var addResult = $("#recent-searches").prepend(newDiv);
-      }
-
-      $("#select-artist").on("click", function (e) {
-        e.preventDefault();
-        // Grab user input for artist
+        //Variables for Firebase
+        firebase.initializeApp(config);
+        var database = firebase.database();
         var artistInput = $("#artist-input").val().trim();
-        $("#recent-searches").prepend(newDiv);
-        getArtist(artistInput);
-        $("#artist-input").val("");
-      })
 
+        //Fetching data from database
+
+        function fetch(callback) {
+          var musicData = database.ref();
+          return musicData.once("value").then(function (snapshot) {
+            callback(snapshot);
+          })
+        }
+
+        //Appending Firebase data
+
+        fetch(function (data) {
+          var newItem = $("#recent-searches").prepend($("<li>").text(artistData))
+          var musicData = (data.val());
+          var keys = Object.keys(musicData);
+
+          for (var i = 0; i < keys.length; i++) {
+            var k = keys[i];
+            var artistData = musicData[k].Artist;
+
+            var newItem = $("#recent-searches").prepend($("<li>").text(artistData))
+            $("#recent-searches").append(newItem)
+
+          }
+        });
+
+
+        //AJAX Function
+
+        function getArtist(artist) {
+          var queryURL = "https://rest.bandsintown.com/artists/" + artist + "?app_id=lindsey";
+
+          $.ajax({
+            url: queryURL,
+            method: 'GET'
+          }).then(function (response) {
+            console.log(response);
+            $("artist-div").empty
+            var artistName = $("<h1>").text(response.name);
+            //var artistURL = $("<a>").attr("href", response.url).text(response.name);
+            var artistImage = $("<img>").attr("src", response.thumb_url);
+            var upcomingEvents = $("<h2>").text("Upcoming events: " + response.upcoming_event_count);
+
+            $("#artist-div").prepend(artistName, artistImage, upcomingEvents);
+          })
+        };
+
+        $("#select-artist").on("click", function (e) {
+          e.preventDefault();
+          // Grab user input for artist
+          var artistInput = $("#artist-input").val().trim();
+          getArtist(artistInput);
+          $("#artist-input").val("");
+
+          var newItem = $("#recent-searches").prepend($("<li>").text(artistInput))
+
+          database.ref().push({
+            Artist: artistInput,
+          })
+
+        })
+      })
     </script>
 
   </body>
