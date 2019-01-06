@@ -1,6 +1,10 @@
-h1,
-h2,
-h3 {
+body #music{
+  opacity: 0.9;
+  background-image: url("../images/cassets.jpg");
+  background-size: 100%;
+}
+
+h1, h2, h3 {
   font-family: Georgia, Times, "Times New Roman", serif;
   font-weight: 600;
   color: #fff;
@@ -74,3 +78,4 @@ h3 {
 ul {
   list-style-type: none;
 }
+
