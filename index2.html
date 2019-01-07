@@ -32,19 +32,9 @@
     </form>
     </div>
   </nav>
-
 </head>
 
 <body>
-
-  <div class="container-fluid" id="content">
-    <div class="row" id="input-artist">
-
-      <form id="artist-form">
-        <label for="artist-input">
-          <h1>Choose Your Artist </h1>
-        </label><br>
-
         <input class="rounded" type='text' id="artist-input"><br><br>
 
         <input class="rounded" type="submit" id="select-artist" value="Find">
@@ -137,17 +127,19 @@
         var queryURL = "https://rest.bandsintown.com/artists/" + artist + "?app_id=lindsey";
 
         $.ajax({
-          url: queryURL,
-          method: 'GET'
-        }).then(function (response) {
-          console.log(response);
-          $("artist-div").empty
-          var artistName = $("<h1>").text(response.name);
-          //var artistURL = $("<a>").attr("href", response.url).text(response.name);
-          var artistImage = $("<img>").attr("src", response.thumb_url);
-          var upcomingEvents = $("<h2>").text("Upcoming events: " + response.upcoming_event_count);
+                    url: queryURL,
+                    method: 'GET'
+                }).then(function (response) {
+                    console.log(response);
+                    $("artist-div").empty
+                    var artistName = $("<h1>").text(response.name);
+                    //var artistURL = $("<a>").attr("href", response.url).text(response.name);
+                    var artistImage = $("<img>").attr("src", response.thumb_url);
+                    var upcomingEvents = $("<h2>").text("Upcoming events: " + response.upcoming_event_count);
+                    var goToArtist = $("<a>").attr("href", response.url).text("See Tour Dates");
+                    var trackerCount = $("<h2>").text(response.tracker_count + " fans tracking this artist");
 
-          $("#artist-div").prepend(artistName, artistImage, upcomingEvents);
+                    $("#artist-div").append(artistName, artistImage, upcomingEvents, goToArtist, trackerCount);
         })
       };
 
