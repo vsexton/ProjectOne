@@ -16,7 +16,6 @@ h3 {
     border: 0 none;
     opacity: 0.8;
   }
-  
   .work h3 {
     position: absolute;
     bottom: 20px;
@@ -30,7 +29,6 @@ h3 {
     background: #4aaaa5;
     border-bottom: 0;
   }
-  
   .auth-image {
     float: left;
     width: 200px;
@@ -57,7 +55,7 @@ h3 {
     background-repeat: no-repeat;
     background-size: cover;
   }
-
+  
  p{
    color: #fff;
  }
