@@ -2,88 +2,182 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   <link href="/Users/majolex/Desktop/ProjectOne/assets/style/style.css" rel="stylesheet"  type="text/css" >
-    <script src="https://code.jquery.com/jquery.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="assets/style/style-index2.css" rel="stylesheet" type="text/css">
+  <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <title>Document</title>
-    <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-     <li><a href="index3.html" class="navbar-brand" >Flying Avalanche </a></li>
-    </div>
-    <ul class="nav navbar-nav">
+  <title>Document</title>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <li><a href="index3.html" class="navbar-brand">Flying Avalanche® </a></li>
+      </div>
+      <ul class="nav navbar-nav">
         <li><a href="index.html" id="Home">Home</a></li>
         <li><a href="index2.html" id="Music">Music</a></li>
-      <li><a href="#">Social Media</a></li>
-    </ul>
-    <form class="navbar-form navbar-left" action="/action_page.php">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search" name="search">
-        <div class="input-group-btn">
-          <button class="btn btn-default" type="submit">
-            <i class="glyphicon glyphicon-search"></i>
-          </button>
-        </div>
+
+      </ul>
+
+      </button>
+    </div>
+    </div>
+    </form>
+    </div>
+  </nav>
+
+</head>
+
+<body>
+
+  <div class="container-fluid" id="content">
+    <div class="row" id="input-artist">
+
+      <form id="artist-form">
+        <label for="artist-input">
+          <h1>Choose Your Artist </h1>
+        </label><br>
+
+        <input class="rounded" type='text' id="artist-input"><br><br>
+
+        <input class="rounded" type="submit" id="select-artist" value="Find">
+      </form>
+    </div>
+
+
+
+    <div class="row" id="content">
+      <div class="col-md">
+
+
+        <div id='artist-div'></div><br>
+
+        <audio controls autoplay>
+          <source src="The Rock and Pop All Stars - Seven Nation Army (Instrumental) www.my-free-mp3.net  (3).mp3" type="audio/ogg">
+          <source src="The Rock and Pop All Stars - Seven Nation Army (Instrumental) www.my-free-mp3.net  (3).mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+
       </div>
-    </form>
+
+      <div class="col col-lg-4">
+
+          <div class="card" style="width: 30rem;">
+              <div class="card-header">
+                <h3>My Search Library</h3>
+              </div>
+              <ul id="recent-searches" class="list-group list-group-flush">
+
+              </ul>
+            </div>
+          
+      </div>
+
+    </div>
+
   </div>
-</nav>
-</head>
-</head>
 
 
- 
- <body background="assets\images\cassets.jpg" id="bandsmusc">
-
-    <div class="container">
-
-    <form id="artist-form">
-        <label for="artist-input">Choose your artist</label>
-        <input type='text' id="artist-input"><br>
-
-        <input type="submit" id="select-artist" value="GO!!">
-    </form>
-
-    <div id='artist-div'></div>
+  <script>
+    $(document).ready(function () {
 
 
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAHf8ygmFnOhfjGjpYz24XLqMG0mD_czrg",
+        authDomain: "flying-avalanche.firebaseapp.com",
+        databaseURL: "https://flying-avalanche.firebaseio.com",
+        projectId: "flying-avalanche",
+        storageBucket: "flying-avalanche.appspot.com",
+        messagingSenderId: "69996284195"
+      };
 
-    <script>
+      //Variables for Firebase
+      firebase.initializeApp(config);
+      var database = firebase.database();
+      var artistInput = $("#artist-input").val().trim();
 
-        function getArtist(artist) {
-            var queryURL = "https://rest.bandsintown.com/artists/" + artist + "?app_id=lindsey";
+      //Fetching data from database
 
-            $.ajax({
-                url: queryURL,
-                method: 'GET'
-            }).then(function (response) {
-                console.log(response);
-                $("artist-div").empty
-                var artistName = $("<h1>").text(response.name);
-                //var artistURL = $("<a>").attr("href", response.url).text(response.name);
-                var artistImage = $("<img>").attr("src", response.thumb_url);
-                var upcomingEvents = $("<h2>").text("Upcoming events: " + response.upcoming_event_count);
-
-                    $("#artist-div").append(artistName, artistImage, upcomingEvents);
-            })
-        };
-
-        $("#select-artist").on("click", function(e) {
-            e.preventDefault();
-            // Grab user input for artist
-            var artistInput = $("#artist-input").val().trim();
-            getArtist(artistInput);
-            $("#artist-input").val("");
+      function fetch(callback) {
+        var musicData = database.ref();
+        return musicData.once("value").then(function (snapshot) {
+          callback(snapshot);
         })
-   
-    </script>
+      }
+
+      //Appending Firebase data
+
+      fetch(function (data) {
+        var newItem = $("#recent-searches").prepend($("<li class='list-group-item'>").text(artistData))
+        var musicData = (data.val());
+        var keys = Object.keys(musicData);
+
+        for (var i = 0; i < keys.length; i++) {
+          var k = keys[i];
+          var artistData = musicData[k].Artist;
+
+          var newItem = $("#recent-searches").prepend($("<li class='list-group-item'>").text(artistData))
+          $("#recent-searches").append(newItem)
+
+        }
+      });
+
+
+      //AJAX Function
+
+      function getArtist(artist) {
+        var queryURL = "https://rest.bandsintown.com/artists/" + artist + "?app_id=lindsey";
+
+        $.ajax({
+          url: queryURL,
+          method: 'GET'
+        }).then(function (response) {
+          console.log(response);
+          $("artist-div").empty
+          var artistName = $("<h1>").text(response.name);
+          //var artistURL = $("<a>").attr("href", response.url).text(response.name);
+          var artistImage = $("<img>").attr("src", response.thumb_url);
+          var upcomingEvents = $("<h2>").text("Upcoming events: " + response.upcoming_event_count);
+
+          $("#artist-div").prepend(artistName, artistImage, upcomingEvents);
+        })
+      };
+
+      $("#select-artist").on("click", function (e) {
+        e.preventDefault();
+        // Grab user input for artist
+        var artistInput = $("#artist-input").val().trim();
+        getArtist(artistInput);
+        $("#artist-input").val("");
+
+        var newItem = $("#recent-searches").prepend($("<li class='list-group-item'>").text(artistInput))
+
+        database.ref().push({
+          Artist: artistInput,
+        })
+
+      })
+    })
+  </script>
+
+
+  <div class="container-fluid fixed-bottom px-0">
+    <footer class="footer bg-dark">
+      <div class="text-center pt-2">
+        <span>&copy; 2018 Flying Avalanche</span>
+      </div>
+    </footer>
+  </div>
+
 </body>
 </div>
+
 </html>

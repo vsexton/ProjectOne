@@ -1,12 +1,9 @@
-h1,
-h2,
-h3 {
+
+h1, h2, h3 {
   font-family: Georgia, Times, "Times New Roman", serif;
   font-weight: 600;
-  color: #637978;
+  color: #fff;
   font-size: 20px;
-  
-  
 }
 
  .work:nth-child(even) {
@@ -60,4 +57,24 @@ h3 {
     background-size: cover;
   }
 
- 
+ p{
+   color: #fff;
+ }
+
+ #input-artist {
+   display: block;
+   text-align: center;
+   
+ }
+#music{
+  margin: auto;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.footer {
+  color: white;
+}
+
