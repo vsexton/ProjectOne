@@ -32,9 +32,19 @@
     </form>
     </div>
   </nav>
+
 </head>
 
 <body>
+
+  <div class="container-fluid" id="content">
+    <div class="row" id="input-artist">
+
+      <form id="artist-form">
+        <label for="artist-input">
+          <h1>Choose Your Artist </h1>
+        </label><br>
+
         <input class="rounded" type='text' id="artist-input"><br><br>
 
         <input class="rounded" type="submit" id="select-artist" value="Find">
@@ -56,10 +66,6 @@
         </audio>
 
       </div>
-      <div id='artist-div'></div>
-      <a class="twitter-timeline" id="tweets" data-width="400" data-height="600" href="https://twitter.com/billboardcharts">
-      Tweets by artistInput
-      </a>
 
       <div class="col col-lg-4">
 
@@ -81,8 +87,6 @@
 
   <script>
     $(document).ready(function () {
-
-
       // Initialize Firebase
       var config = {
         apiKey: "AIzaSyAHf8ygmFnOhfjGjpYz24XLqMG0mD_czrg",
@@ -92,94 +96,58 @@
         storageBucket: "flying-avalanche.appspot.com",
         messagingSenderId: "69996284195"
       };
-
       //Variables for Firebase
       firebase.initializeApp(config);
       var database = firebase.database();
       var artistInput = $("#artist-input").val().trim();
-
       //Fetching data from database
-
       function fetch(callback) {
         var musicData = database.ref();
         return musicData.once("value").then(function (snapshot) {
           callback(snapshot);
         })
       }
-
       //Appending Firebase data
-
       fetch(function (data) {
         var newItem = $("#recent-searches").prepend($("<li class='list-group-item'>").text(artistData))
         var musicData = (data.val());
         var keys = Object.keys(musicData);
-
         for (var i = 0; i < keys.length; i++) {
           var k = keys[i];
           var artistData = musicData[k].Artist;
-
           var newItem = $("#recent-searches").prepend($("<li class='list-group-item'>").text(artistData))
           $("#recent-searches").append(newItem)
-
         }
       });
-
-
       //AJAX Function
-
       function getArtist(artist) {
         var queryURL = "https://rest.bandsintown.com/artists/" + artist + "?app_id=lindsey";
-
         $.ajax({
-                    url: queryURL,
-                    method: 'GET'
-                }).then(function (response) {
-                    console.log(response);
-                    $("artist-div").empty
-                    var artistName = $("<h1>").text(response.name);
-                    //var artistURL = $("<a>").attr("href", response.url).text(response.name);
-                    var artistImage = $("<img>").attr("src", response.thumb_url);
-                    var upcomingEvents = $("<h2>").text("Upcoming events: " + response.upcoming_event_count);
-                    var goToArtist = $("<a>").attr("href", response.url).text("See Tour Dates");
-                    var trackerCount = $("<h2>").text(response.tracker_count + " fans tracking this artist");
-
-                    $("#artist-div").append(artistName, artistImage, upcomingEvents, goToArtist, trackerCount);
+          url: queryURL,
+          method: 'GET'
+        }).then(function (response) {
+          console.log(response);
+          $("artist-div").empty
+          var artistName = $("<h1>").text(response.name);
+          //var artistURL = $("<a>").attr("href", response.url).text(response.name);
+          var artistImage = $("<img>").attr("src", response.thumb_url);
+          var upcomingEvents = $("<h2>").text("Upcoming events: " + response.upcoming_event_count);
+          $("#artist-div").prepend(artistName, artistImage, upcomingEvents);
         })
       };
-
       $("#select-artist").on("click", function (e) {
         e.preventDefault();
         // Grab user input for artist
         var artistInput = $("#artist-input").val().trim();
         getArtist(artistInput);
         $("#artist-input").val("");
-
         var newItem = $("#recent-searches").prepend($("<li class='list-group-item'>").text(artistInput))
-
         database.ref().push({
           Artist: artistInput,
         })
-
       })
     })
   </script>
-    <script>window.twttr = (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0],
-      t = window.twttr || {};
-    if (d.getElementById("#twitter")) return t;
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "https://platform.twitter.com/widgets.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  
-    t._e = [];
-    t.ready = function(f) {
-      t._e.push(f);
-    };
-  
-    return t;
-  }(document, "script", "twitter-wjs"));</script>
- 
 
 
   <div class="container-fluid fixed-bottom px-0">
