@@ -1,6 +1,5 @@
-h1,
-h2,
-h3 {
+
+h1, h2, h3 {
   font-family: Georgia, Times, "Times New Roman", serif;
   font-weight: 600;
   color: #fff;
@@ -74,11 +73,8 @@ h3 {
 ul {
   list-style-type: none;
 }
-#work{
-  float: left;
-  width: 25%;
-  padding: 5px;
-  content: "";
-  clear: all;
-  display: table;
+
+.footer {
+  color: white;
 }
+
